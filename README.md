@@ -14,3 +14,9 @@ The actual numerical scheme is contained within two functions in `diffusion_sche
 `python -i Code\test_me.py`
 
 which will generate a figure (using the sub-routines in `plotting.py`) showing the results of the numerical integration on a specific test case (constant *k*, zero *S* - the reason for this is so that an analytic solution can be used for comparison - see the documentation for more details). It can be run again with different parameters by then using the command `main(L=4.0, nt=15)`, for example. Type `help(main)` to see which other parameters may be changed.
+
+#### Code created and tested using...
+- Windows 7
+- Python 2.7.10
+- MatPlotLib 1.4.3
+- NumPy 1.9.2
