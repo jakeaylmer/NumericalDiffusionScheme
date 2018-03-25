@@ -1,6 +1,6 @@
 # NumericalDiffusionScheme
 
-This repository contains some Python (2.7) code which may be used to solve the one-dimensional diffusion equation with variable diffusivity *k*(*x*, *t*) and non-zero source term *S*(*x*, *t*). It currently does **not** allow for advection terms (first derivatives with respect to *x*).
+This repository contains some Python (2.7) code which may be used to solve the one-dimensional diffusion equation with variable diffusivity *k*(*x*) and non-zero source term *S*(*x*, *t*). It currently does **not** allow for advection terms (first derivatives with respect to *x*).
 
 The Documentation sub-directory contains information on the numerical scheme and how it is derived and set up. The code has been written to match the symbols in the document "Implementation_Notes.pdf" as closely as possible.
 

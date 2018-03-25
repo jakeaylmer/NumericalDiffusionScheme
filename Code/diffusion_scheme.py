@@ -16,8 +16,8 @@ import matplotlib.pyplot as plt
 
 def SchemeMatrix(N, k, L=1.0):
     """Calculate the matrix A which expresses the diffusion operator in the
-    numerical scheme for solving the diffusion equation with variable
-    diffusivity k and source term S:
+    numerical scheme for solving the diffusion equation with spatially-variable
+    diffusivity k(x) and source term S:
     
         [d/dt - A]q(x,t) - S(x,t) = 0
     
@@ -55,7 +55,8 @@ def SchemeMatrix(N, k, L=1.0):
 
 
 def SolveDiffusionEquation(q_old, S_old, S_new, k, dt, L=1.0, theta=1.0):
-    """Solves the diffusion equation with variable coefficients:
+    """Solves the diffusion equation with spatially-variable diffusivity and
+    variable source term:
     
        dq/dt - d/dx[k(x)dq/dx] = S(x,t)
     

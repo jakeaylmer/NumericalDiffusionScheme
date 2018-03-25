@@ -28,9 +28,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Problem statement}
 
-The one-dimensional diffusion equation for tracer $q(x,t)$, defined on $0<x<L$ and $t\geq 0$, with source $S(x,t)$ and diffusivity $k(x,t)$ is given by
+The one-dimensional diffusion equation for tracer $q(x,t)$, defined on $0<x<L$ and $t\geq 0$, with source $S(x,t)$ and diffusivity $k(x)$ is given by
 \begin{equation}\label{eq:diffusionequation}
-\frac{\partial q}{\partial t} - \frac{\partial}{\partial x}\left[k(x,t)\frac{\partial q}{\partial x}\right] = S(x,t),
+\frac{\partial q}{\partial t} - \frac{\partial}{\partial x}\left[k(x)\frac{\partial q}{\partial x}\right] = S(x,t),
 \end{equation}
 which is subject to Neumann boundary conditions (zero flux of $q$ at the boundaries)
 \begin{equation}\label{eq:boundaryconditions}
@@ -44,7 +44,7 @@ q(x,0) = q_0(x).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Analytic solution for a limiting case}
 
-Equation (\ref{eq:diffusionequation}) can be solved analytically in the limit of no sources or sinks ($S(x,t)=0$) and constant diffusivity $k(x,t)=k_0$. This is derived by using the method of separation of variables and expressing the general solution as an infinite sum of normal modes with coefficients found using Fourier analysis. The final result is given here and can be used as a test for the numerical solution to the full diffusion equation (\ref{eq:diffusionequation}). The solution to
+Equation (\ref{eq:diffusionequation}) can be solved analytically in the limit of no sources or sinks ($S(x,t)=0$) and constant diffusivity $k(x)=k_0$. This is derived by using the method of separation of variables and expressing the general solution as an infinite sum of normal modes with coefficients found using Fourier analysis. The final result is given here and can be used as a test for the numerical solution to the full diffusion equation (\ref{eq:diffusionequation}). The solution to
 \begin{equation}\label{eq:simplifieddiffusionequation}
 \frac{\partial q}{\partial t} = k_0\frac{\partial^2q}{\partial x^2}
 \end{equation}
@@ -91,7 +91,7 @@ Equation (\ref{eq:diffusionequation}) is re-written in the semi-discretised form
 \begin{equation}\label{eq:semidiscrete}
 \frac{d\mathbf{q}}{dt} = \mathsf{A}\mathbf{q} + \mathbf{S}
 \end{equation}
-where the $(N\times N)$ matrix $\mathsf{A}$ takes the place of the operator $\partial_x(k(x,t)\partial_x)$ in equation (\ref{eq:diffusionequation}). $\mathsf{A}$ accounts for the boundary conditions of the problem: \textit{here and in the code only Neumann boundary conditions are used}. The result is as follows for elements $\mathsf{A}_{ij}$ where $i$ refers to the row index and $j$ the column index, and $k_j\equiv k(x_j,t)=k((j+\nicefrac{1}{2})h,t)$. For $i\neq 0$, $i\neq N-1$:
+where the $(N\times N)$ matrix $\mathsf{A}$ takes the place of the operator $\partial_x(k(x)\partial_x)$ in equation (\ref{eq:diffusionequation}). $\mathsf{A}$ accounts for the boundary conditions of the problem: \textit{here and in the code only Neumann boundary conditions are used}. The result is as follows for elements $\mathsf{A}_{ij}$ where $i$ refers to the row index and $j$ the column index, and $k_j\equiv k(x_j)=k((j+\nicefrac{1}{2})h)$. For $i\neq 0$, $i\neq N-1$:
 \begin{equation}\label{eq:matrixelements}
 h^2\mathsf{A}_{ij} = \begin{cases}
     -(k_{j+\nicefrac{1}{2}}+k_{j-\nicefrac{1}{2}}) & i=j \\
@@ -142,7 +142,7 @@ An example of the numerical scheme being used to solve the diffusion equation (\
 \begin{figure}[b]
 \centering
 \includegraphics[width=0.7\linewidth]{example_plot.pdf}
-\caption{Example solution of the simplified diffusion equation (\ref{eq:simplifieddiffusionequation}) with initial conditions (\ref{eq:initialconditionsexample}) (dashed-line), $L=2.0$ m, $q_\mathrm{max}=4.0$ and other parameters as listed at the top of the figure. The analytic solution (\ref{eq:specificanalyticsolution}) is plotted (black) but is obscured by the numerical solutions, which were calculated using the scheme implementation (\ref{eq:numericalscheme})-(\ref{eq:Stheta}) setting $\mathbf{S}=0$ and $k=k_0$. The Crank-Nicolson solution (green) is more accurate than the Backward-Euler solution (blue) as expected (this can be seen by zooming in on the solutions). The Forward-Euler solution is not plotted because it requires a significantly smaller time-step in order to be numerically stable.}
+\caption{Example solution of the simplified diffusion equation (\ref{eq:simplifieddiffusionequation}) with initial conditions (\ref{eq:initialconditionsexample}) (dashed-line), $L=2.0$ m, $q_\mathrm{max}=4.0$ and other parameters as listed at the top of the figure. The analytic solution (\ref{eq:specificanalyticsolution}) is plotted (black) but is obscured by the numerical solutions, which were calculated using the scheme implementation (\ref{eq:numericalscheme})-(\ref{eq:Stheta}) setting $\mathbf{S}=0$ and $k(x)=k_0$. The Crank-Nicolson solution (green) is more accurate than the Backward-Euler solution (blue) as expected (this can be seen by zooming in on the solutions). The Forward-Euler solution is not plotted because it requires a significantly smaller time-step for numerical stability.}
 \label{fig:example}
 \end{figure} 
 
