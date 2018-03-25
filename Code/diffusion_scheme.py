@@ -4,7 +4,7 @@
 ### This code contains two sub-routines needed to solve the diffusion equation
 ### with variable diffusivity and non-zero source term. It does not include
 ### advection terms (dq/dx). SolveDiffusionEquation() integrates forward by one
-### time-step making use of SchemeMatrix to calculate the diffusion operator A.
+### time-step using of SchemeMatrix() to calculate the diffusion operator, A.
 ### 
 ### See the repository documentation for further details.
 ### ---------------------------------------------------------------------------
@@ -31,11 +31,9 @@ def SchemeMatrix(N, k, L=1.0):
     --Args--
     N   : integer; number of grid cells.
     k   : function; of x, which should return the diffusivity at x.
-    (L) : upper limit of spatial domain (i.e. 0 < x < L), default L=1.0.
+    (L) : float, upper limit of spatial domain (i.e. 0 < x < L), default L=1.0.
     """
     h = L / N
-    
-    # Set up the matrix, A:
     A = np.zeros( (N, N) )
     
     # Inner elements (away from boundaries) - all rows except first and last:
@@ -51,7 +49,6 @@ def SchemeMatrix(N, k, L=1.0):
     A[N-1][N-2] = k((N-1)*h)
     A[N-1][N-1] = -k((N-1)*h)
     
-    # Divide all elements by h^2:
     A /= h**2 
     
     return A
@@ -60,7 +57,7 @@ def SchemeMatrix(N, k, L=1.0):
 def SolveDiffusionEquation(q_old, S_old, S_new, k, dt, L=1.0, theta=1.0):
     """Solves the diffusion equation with variable coefficients:
     
-       dq/dt + d/dx[k(x)dq/dx] = S(x,t)
+       dq/dt - d/dx[k(x)dq/dx] = S(x,t)
     
     using finite volume discretisation (method of lines). The x domain is
     defined on 0 < x < L, and is discretised into N grid cells of with h = L/N
@@ -77,6 +74,8 @@ def SolveDiffusionEquation(q_old, S_old, S_new, k, dt, L=1.0, theta=1.0):
     S_new   : NumPy array of length N, S(x) at the next time step.
     k       : function of x, which should return the diffusivity at x.
     dt      : float, time step.
+    (L)     : float, upper limit of spatial domain (i.e. 0 < x < L), default
+              L=1.0.
     (theta) : float, between 0 and 1, specifies which scheme is used (0 is
               forward-Euler, 0.5 is Crank-Nicholson, 1 is backward-Euler).
               Default theta=1.
