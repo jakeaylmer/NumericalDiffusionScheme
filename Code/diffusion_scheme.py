@@ -4,7 +4,7 @@
 ### This code contains two sub-routines needed to solve the diffusion equation
 ### with variable diffusivity and non-zero source term. It does not include
 ### advection terms (dq/dx). SolveDiffusionEquation() integrates forward by one
-### time-step using of SchemeMatrix() to calculate the diffusion operator, A.
+### time-step using SchemeMatrix() to calculate the diffusion operator, A.
 ### 
 ### See the repository documentation for further details.
 ### ---------------------------------------------------------------------------
