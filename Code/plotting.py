@@ -41,6 +41,22 @@ def MakePlots(x, initial, analytic, CrankNicolson, BackwardEuler, nt, dt, k0):
     return FormatAxis(fig, ax)
 
 
+def EnergyPlot(t, E_CN, E_BE):
+    """"""
+    
+    fig, ax = plt.subplots()
+    
+    ax.plot(t, E_CN, color='g', label='Crank-Nicolson')
+    ax.plot(t, E_BE, color='b', label='Backward Euler')
+    
+    ax.set_ylim([0,10])
+    ax.set_xlabel(r'Time, $t$ (s)')
+    ax.set_ylabel(r'$\int_0^L q(x,t)\mathrm{d}x$ ([q] m)')
+    ax.legend(loc=0, fontsize=17)
+    
+    return FormatAxis(fig, ax)
+
+
 def PlotDefaults():
     """Set the global default formatting styles for some of the plot elements.
     This should be called before any other plotting functions.

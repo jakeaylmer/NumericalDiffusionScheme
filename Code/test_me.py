@@ -38,7 +38,7 @@ def AnalyticSolution(x, t, k0=0.25, L=2.0, q_max=4.0, truncate=20):
     return q_an
 
 
-def main(L=2.0, N=25, t_tot=10.0, nt=10, q_max=4.0):
+def main(L=2.0, N=25, t_tot=60.0, nt=60, q_max=4.0):
     """This is the main routine which is run on start-up of the program. It may
     be re-run with different arguments in a Python interpretter.
     
@@ -60,7 +60,13 @@ def main(L=2.0, N=25, t_tot=10.0, nt=10, q_max=4.0):
     q_an = AnalyticSolution(x, nt*dt, k0, L, q_max)
     q_old_CN = q_init.copy(); q_old_BE = q_init.copy()
     
-    for step in xrange(nt):
+    int_q_CN = np.zeros(nt); int_q_BE = np.zeros(nt)
+    
+    for i in xrange(nt):
+        
+        int_q_CN[i] = np.sum(q_old_CN) * h
+        int_q_BE[i] = np.sum(q_old_BE) * h
+        
         q_new_CN = dif.SolveDiffusionEquation(q_old_CN, S, S,
             ConstantDiffusivity, dt, L, 0.5) # Crank-Nicolson (CN)
         q_new_BE = dif.SolveDiffusionEquation(q_old_BE, S, S,
@@ -68,8 +74,9 @@ def main(L=2.0, N=25, t_tot=10.0, nt=10, q_max=4.0):
         q_old_CN = q_new_CN.copy()
         q_old_BE = q_new_BE.copy()
     
-    fig, ax = pl.MakePlots(x, q_init, q_an, q_new_CN, q_new_BE, nt, dt, k0)
-    fig.show()
+    fig1, ax1 = pl.MakePlots(x, q_init, q_an, q_new_CN, q_new_BE, nt, dt, k0)
+    fig2, ax2 = pl.EnergyPlot(np.linspace(0, nt*dt, nt), int_q_CN, int_q_BE)
+    fig1.show(); fig2.show()
     pass
 
 
