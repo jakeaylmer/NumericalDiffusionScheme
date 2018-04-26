@@ -27,9 +27,9 @@ def MakePlots(x, initial, analytic, CrankNicolson, BackwardEuler, nt, dt, k0):
     fig, ax = plt.subplots()
     
     ax.plot(x, initial, color='k', linestyle='--',label='Initial')
-    ax.plot(x, analytic, color='k', label='Analytic')
-    ax.plot(x, CrankNicolson, color='g', label='Crank-Nicolson')
-    ax.plot(x, BackwardEuler, color='b', label='Backward Euler')
+    #ax.plot(x, analytic, color='k', label='Analytic')
+    ax.plot(x, CrankNicolson, color='g', marker='o', label='Crank-Nicolson')
+    ax.plot(x, BackwardEuler, color='b', marker='o', label='Backward Euler')
     
     title = r'$N=%i$, $\Delta t=%.1f$ s, $n_t=%i$' % (len(x), dt, nt)
     title += r', $k_0 = %.1f\times 10^{-3}$ m$^2$s$^{-1}$' % (1000*k0)

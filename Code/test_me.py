@@ -38,7 +38,7 @@ def AnalyticSolution(x, t, k0=0.25, L=2.0, q_max=4.0, truncate=20):
     return q_an
 
 
-def main(L=2.0, N=25, t_tot=60.0, nt=60, q_max=4.0):
+def main(L=1.0, N=60, t_tot=60.0, nt=4, q_max=4.0):
     """This is the main routine which is run on start-up of the program. It may
     be re-run with different arguments in a Python interpretter.
     
@@ -55,7 +55,8 @@ def main(L=2.0, N=25, t_tot=60.0, nt=60, q_max=4.0):
     dt = t_tot/nt # time step in s
 
     x = np.linspace(h/2, L-h/2, N) # grid-cell centres (m)
-    q_init = q_max*x*(L - x) # initial conditions
+    #q_init = q_max*x*(L - x) # initial conditions
+    q_init = q_max*x*(L - x)*(x<=0.8)+(q_max*0.8*(L-0.8))*(x>0.8) # initial conditions
     S = np.zeros(N) # source (0 everywhere)
     q_an = AnalyticSolution(x, nt*dt, k0, L, q_max)
     q_old_CN = q_init.copy(); q_old_BE = q_init.copy()
