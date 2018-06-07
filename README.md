@@ -21,7 +21,7 @@ which will generate a figure (using the sub-routines in `plotting.py`) showing t
 
 Also shown is a plot which demonstrates that the numerical scheme is conserving *q* - since Neumann boundary conditions are used and the scheme is a finite volume method, the total integral quantity of *q*(*x*) over the domain should remain constant as it is integrated forwards in time. The scheme has been verified to conserve *q* for (i) constant diffusivity *k* and (ii) position-dependent diffusivity *k*(*x*) (18/04/2018). Unfortunately this numerical scheme does not appear to conserve *q* when the source *S* is time dependent (although the solutions retain stability and (probably) accuracy); it is possible this may due to the back-end matrix inversion methods (i.e. potentially solvable) but this is not being investigated further at this time.
 
-##Dependencies
+## Dependencies
   * Python 2.7.14
   * MatPlotLib 2.2.2
   * NumPy 1.14.3
