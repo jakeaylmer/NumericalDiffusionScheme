@@ -22,7 +22,7 @@ def AnalyticSolution(x, t, k0=0.25, L=2.0, q_max=4.0, truncate=20):
     initial conditions q(x,0) = q_max*x*(L-x). See repository documentation for
     details.
     
-    --Args--
+    --Arguments (optional ones in round brackets)--
     x          : NumPy array, x-coordinates.
     t          : float, time at which to return the solution.
     (k0)       : float, constant value of diffusivity (default 0.25).
@@ -38,25 +38,24 @@ def AnalyticSolution(x, t, k0=0.25, L=2.0, q_max=4.0, truncate=20):
     return q_an
 
 
-def main(L=1.0, N=60, t_tot=60.0, nt=4, q_max=4.0):
-    """This is the main routine which is run on start-up of the program. It may
-    be re-run with different arguments in a Python interpretter.
+def main(L=2.0, N=60, t_tot=60.0, nt=60, q_max=4.0):
+    """Main routine which is run on start-up of the program. It may be re-run
+    with different arguments in a Python interpretter.
     
-    --Args--
+    --Optional arguments--
     L     : float, upper domain limit in m (so that 0 < x < L).
     N     : int, number of grid cells to split the domain into.
     t_tot : float, total integration time (s).
     nt    : int, number of time steps (this determines the time-step through
             dt = t_tot / nt).
-    q_max : float, sets the overall scale of the initial conditions.
+    q_max : float, sets the overall magnitude of the initial conditions.
     """
-    h = L/N # width of grid cells in m
+    h = L/N # width of grid cells [m]
     k0 = ConstantDiffusivity(0)
-    dt = t_tot/nt # time step in s
+    dt = t_tot/nt # time step [s]
 
-    x = np.linspace(h/2, L-h/2, N) # grid-cell centres (m)
-    #q_init = q_max*x*(L - x) # initial conditions
-    q_init = q_max*x*(L - x)*(x<=0.8)+(q_max*0.8*(L-0.8))*(x>0.8) # initial conditions
+    x = np.linspace(h/2, L-h/2, N) # grid cell centres [m]
+    q_init = q_max*x*(L - x) # initial conditions
     S = np.zeros(N) # source (0 everywhere)
     q_an = AnalyticSolution(x, nt*dt, k0, L, q_max)
     q_old_CN = q_init.copy(); q_old_BE = q_init.copy()
@@ -75,12 +74,17 @@ def main(L=1.0, N=60, t_tot=60.0, nt=4, q_max=4.0):
         q_old_CN = q_new_CN.copy()
         q_old_BE = q_new_BE.copy()
     
-    fig1, ax1 = pl.MakePlots(x, q_init, q_an, q_new_CN, q_new_BE, nt, dt, k0)
-    fig2, ax2 = pl.EnergyPlot(np.linspace(0, nt*dt, nt), int_q_CN, int_q_BE)
-    fig1.show(); fig2.show()
+    fig1, ax1 = pl.MakePlots(
+        x, q_init, q_an, q_new_CN, q_new_BE, nt, dt, k0,
+        xlim=[0,L], ylim=[0,q_max])
+    fig2, ax2 = pl.EnergyPlot(
+        np.linspace(0, nt*dt, nt), int_q_CN, int_q_BE,
+        xlim=[0,L], ylim=[5,6])
+    fig1.show()
+    fig2.show()
     pass
 
 
 if __name__ == '__main__':
-    pl.PlotDefaults()
+    pl.SetRCParams()
     main()
